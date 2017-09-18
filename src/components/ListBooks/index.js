@@ -19,13 +19,18 @@ export default class ListBooks extends React.Component {
       listbooks: response,
     });
   };
-  
+
   updateShelf = async (book, shelf) => {
-    const response = await BooksAPI.update(book, shelf);
-    if (response) {
-      this.fetchListBooks();
+    if (book.shelf !== shelf) {
+      const response = await BooksAPI.update(book, shelf);
+      if (response) {
+        book.shelf = shelf;
+        this.setState(state => ({
+          listbooks: state.listbooks.filter(each => each.id !== book.id).concat([book]),
+        }));
+      }
     }
-  }
+  };
 
   render() {
     return (
@@ -35,19 +40,19 @@ export default class ListBooks extends React.Component {
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelf 
+            <BookShelf
               listbooks={this.state.listbooks}
               bookshelfTitle="Currently Reading"
               shelf="currentlyReading"
               updateShelf={this.updateShelf}
             />
-            <BookShelf 
+            <BookShelf
               listbooks={this.state.listbooks}
               bookshelfTitle="Want to Read"
               shelf="wantToRead"
               updateShelf={this.updateShelf}
             />
-            <BookShelf 
+            <BookShelf
               listbooks={this.state.listbooks}
               bookshelfTitle="Read"
               shelf="read"
