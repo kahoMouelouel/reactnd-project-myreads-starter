@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default props => {
-  const { listbooks, bookshelfTitle, shelf, updateShelf, selectBook } = props;
+  const { listbooks, bookshelfTitle, shelf, updateShelf } = props;
   const filterByShelfName = listbooks => shelf === listbooks.shelf;
   return (
     <div className="bookshelf">
