@@ -21,10 +21,7 @@ export default class SearchBooks extends React.Component {
   };
 
   updateShelf = async (book, shelf) => {
-    const response = await BooksAPI.update(book, shelf);
-    if (response) {
-      this.fetchListBooks();
-    }
+    await BooksAPI.update(book, shelf);
   };
 
   render() {
@@ -58,7 +55,7 @@ export default class SearchBooks extends React.Component {
                     />
                     <div className="book-shelf-changer">
                       <select
-                        defaultValue="none"
+                        defaultValue={bookshelf.shelf || 'none'}
                         onChange={event => this.updateShelf(bookshelf, event.target.value)}
                       >
                         <option value="none" disabled>
@@ -72,7 +69,7 @@ export default class SearchBooks extends React.Component {
                     </div>
                   </div>
                   <div className="book-title">{bookshelf.title}</div>
-                  <div className="book-authors">{bookshelf.authors.join(', ')}</div>
+                  <div className="book-authors">{bookshelf.authors ? bookshelf.authors.join(', ') : ''}</div>
                 </div>
               </li>
             ))}
