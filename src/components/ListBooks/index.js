@@ -13,22 +13,22 @@ export default class ListBooks extends React.Component {
     this.fetchListBooks();
   }
 
-  fetchListBooks = async () => {
-    const response = await BooksAPI.getAll();
-    this.setState({
-      listbooks: response,
+  fetchListBooks = () => {
+    BooksAPI.getAll().then(books => {
+      this.setState({
+        listbooks: books,
+      });
     });
   };
 
-  updateShelf = async (book, shelf) => {
+  updateShelf = (book, shelf) => {
     if (book.shelf !== shelf) {
-      const response = await BooksAPI.update(book, shelf);
-      if (response) {
+      BooksAPI.update(book, shelf).then(shelves => {
         book.shelf = shelf;
         this.setState(state => ({
           listbooks: state.listbooks.filter(each => each.id !== book.id).concat([book]),
         }));
-      }
+      });
     }
   };
 
